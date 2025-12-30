@@ -6,16 +6,6 @@ defmodule Tunez.Music.Artist do
     repo Tunez.Repo
   end
 
-  attributes do
-    uuid_v7_primary_key :id
-
-    attribute :name, :string, allow_nil?: false
-    attribute :biography, :string
-
-    create_timestamp :inserted_at
-    update_timestamp :updated_at
-  end
-
   actions do
     create :create do
       accept [:name, :biography]
@@ -30,5 +20,19 @@ defmodule Tunez.Music.Artist do
     end
 
     destroy :destroy
+  end
+
+  attributes do
+    uuid_v7_primary_key :id
+
+    attribute :name, :string, allow_nil?: false
+    attribute :biography, :string
+
+    create_timestamp :inserted_at
+    update_timestamp :updated_at
+  end
+
+  relationships do
+    has_many :albums, Tunez.Music.Album
   end
 end
