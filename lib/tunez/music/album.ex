@@ -22,6 +22,17 @@ defmodule Tunez.Music.Album do
     end
   end
 
+  validations do
+    # # This validation causes an exception
+    # validate numericality(:year_released, greater_than: 1920, less_than_or_equal_to: &__MODULE__.next_year/0),
+    #   where: [present(:year_released)],
+    #   message: "Must be between 1920 and next year"
+
+    validate match(:cover_image_url, ~r"^(https://|/images/).+(\.png|\.jpg)$"),
+      where: [changing(:cover_image_url)],
+      message: "Must be a png or jpg image starting with https:// or /images/"
+  end
+
   attributes do
     uuid_v7_primary_key :id
 
@@ -36,4 +47,10 @@ defmodule Tunez.Music.Album do
   relationships do
     belongs_to :artist, Tunez.Music.Artist, allow_nil?: false
   end
+
+  identities do
+    identity :unique_album_names_per_artist, [:name, :artist_id], message: "already exists for this artist"
+  end
+
+  def next_year(), do: Date.utc_today().year + 1
 end
