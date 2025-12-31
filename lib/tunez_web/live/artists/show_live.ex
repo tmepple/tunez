@@ -25,6 +25,9 @@ defmodule TunezWeb.Artists.ShowLive do
         <.h1>
           {@artist.name}
         </.h1>
+        <:subtitle :if={@artist.previous_names != []}>
+          formerly known as: {Enum.join(@artist.previous_names, ", ")}
+        </:subtitle>
         <:action>
           <.button_link
             kind="error"
@@ -150,8 +153,6 @@ defmodule TunezWeb.Artists.ShowLive do
 
         {:noreply, socket |> put_flash(:error, "Could not delete artist")}
     end
-
-    {:noreply, socket}
   end
 
   def handle_event("destroy-album", _params, socket) do
