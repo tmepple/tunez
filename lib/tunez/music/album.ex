@@ -23,10 +23,10 @@ defmodule Tunez.Music.Album do
   end
 
   validations do
-    # # This validation causes an exception
-    # validate numericality(:year_released, greater_than: 1920, less_than_or_equal_to: &__MODULE__.next_year/0),
-    #   where: [present(:year_released)],
-    #   message: "Must be between 1920 and next year"
+    # # This validation causes an exception upon save
+    validate numericality(:year_released, greater_than: 1920, less_than_or_equal_to: &__MODULE__.next_year/0),
+      where: [present(:year_released)],
+      message: "Must be between 1920 and next year"
 
     validate match(:cover_image_url, ~r"^(https://|/images/).+(\.png|\.jpg)$"),
       where: [changing(:cover_image_url)],
